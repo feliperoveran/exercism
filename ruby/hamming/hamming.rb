@@ -4,13 +4,7 @@ class Hamming
 
     paired_strands = first.chars.zip(second.chars)
 
-    paired_strands.reduce(0) do |distance, (a, b)|
-      if a != b
-        distance += 1
-      end
-
-      distance
-    end
+    paired_strands.count { |a, b| a != b }
   end
 end
 
