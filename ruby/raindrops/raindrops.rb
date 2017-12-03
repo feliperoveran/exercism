@@ -7,14 +7,14 @@ class Raindrops
 
   def self.convert(number)
     result = FACTORS.select do |sound, factor|
-      number % factor == 0
-    end.map(&:first).join
+      (number % factor).zero?
+    end.keys
 
     if result.empty?
-      result = number.to_s
+      number.to_s
+    else
+      result.join
     end
-
-    result
   end
 end
 
