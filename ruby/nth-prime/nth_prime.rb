@@ -1,11 +1,10 @@
 require 'prime'
-require 'byebug'
 
 class Prime
   def self.nth(n)
     raise ArgumentError unless n > 0
 
-    Prime.first(n).last
+    Prime::EratosthenesSieve.instance.get_nth_prime(n-1)
   end
 end
 
