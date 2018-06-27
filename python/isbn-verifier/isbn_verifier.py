@@ -1,19 +1,27 @@
 import re
 
 def verify(isbn):
-    regex = '\A\d{1}-?\d{3}-?\d{5}-?[0-9X]{1}\Z'
+    if validate_format(isbn):
+        result = 0
 
-    if not re.match(regex, isbn):
+        for i, num in enumerate(remove_dashes(isbn)):
+            if num == 'X':
+                num = 10
+
+            result += int(num) * (10 - i)
+
+        return mod_11(result)
+    else:
         return False
 
-    isbn = re.sub("-", "", isbn)
 
-    result = 0
+def validate_format(isbn):
+    return re.match('\A\d{1}-?\d{3}-?\d{5}-?[0-9X]{1}\Z', isbn)
 
-    for i, num in enumerate(isbn):
-        if num == 'X':
-            num = 10
 
-        result += int(num) * (10-i)
+def remove_dashes(isbn):
+    return re.sub("-", "", isbn)
 
-    return result % 11 == 0
+
+def mod_11(value):
+    return value % 11 == 0
