@@ -28,20 +28,11 @@ class RunLengthEncoding
 
   def self.decode(input)
     quantities = input.scan(/(\d+)?(\w|\s)/)
-    decoded_string = ''
 
-    quantities.each do |quantity|
-      count = quantity[0].to_i
-      char = quantity[1]
-
-      if count > 1
-        decoded_string += char * count
-      else
-        decoded_string += char
-      end
+    quantities.inject("") do |decoded_string, (count, char)|
+      count = count ? count.to_i : 1
+      decoded_string << char * count
     end
-
-    decoded_string
   end
 end
 
