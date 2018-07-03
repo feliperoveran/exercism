@@ -1,4 +1,3 @@
-require 'byebug'
 class RunLengthEncoding
   class << self
     def encode(input)
