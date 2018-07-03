@@ -1,38 +1,31 @@
 import re
+from functools import reduce
 
 def decode(string):
     quantities = re.findall('(\d+)?(\w|\s)', string)
-    result = ''
 
-    for quantity in quantities:
-        count = quantity[0]
-        letter = quantity[1]
+    return reduce(__decode, quantities, '')
 
-        if count:
-            result += int(count) * letter
-        else:
-            result += letter
 
-    return(result)
+def __decode(result, quantity):
+    count = int(quantity[0]) if quantity[0] else 1
+    result += count * quantity[1]
+    return result
 
 
 def encode(string):
-    result = ''
+    return __encode(string, '')
 
-    while len(string) > 0:
-        remaining_string = string.lstrip(string[0])
-        if len(remaining_string) > 0:
-            different_element = remaining_string[0]
-            count = string.index(different_element)
-        else:
-            different_element = string[-1]
-            count = len(string)
 
-        if count > 1:
-            result += str(count) + string[0]
-        else:
-            result += string[0]
+def __encode(string, result):
+    if len(string) == 0: return result
 
-        string = remaining_string
+    match = re.match('{}+'.format(string[0]), string)
+    count = len(match.group())
 
-    return result
+    if count > 1: result += str(count)
+    result += match.group()[0]
+
+    remaining_string = string[match.end():]
+
+    return __encode(remaining_string, result)
