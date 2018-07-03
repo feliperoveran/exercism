@@ -2,14 +2,15 @@ import re
 from functools import reduce
 
 def decode(string):
-    quantities = re.findall('(\d+)?(\w|\s)', string)
-
-    return reduce(__decode, quantities, '')
+    return reduce(__decode, re.findall('(\d+)?(\w|\s)', string), '')
 
 
 def __decode(result, quantity):
-    count = int(quantity[0]) if quantity[0] else 1
-    result += count * quantity[1]
+    count, char = quantity
+
+    count = int(count) if count else 1
+    result += count * char
+
     return result
 
 
