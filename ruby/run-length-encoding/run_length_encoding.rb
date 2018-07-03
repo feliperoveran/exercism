@@ -1,38 +1,32 @@
 require 'byebug'
 class RunLengthEncoding
-  def self.encode(input)
-    input = input.dup
-    encoded = ''
+  class << self
+    def encode(input)
+      input = input.dup
 
-    while !input.empty?
-      char = input[0]
-      next_char = input.split(char).join[0]
+      _encode(input, '')
+    end
 
-      if next_char
-        count = input.index(next_char)
-        input = input[count..-1]
-      else
-        count = input.rindex(char) + 1
-        input = ''
-      end
-
-      if count > 1
-        encoded += count.to_s + char
-      else
-        encoded += char
+    def decode(input)
+      scan(/(\d+)?(\w|\s)/).inject("") do |decoded_string, (count, char)|
+        count = count ? count.to_i : 1
+        decoded_string << char * count
       end
     end
 
-    encoded
-  end
+    private
 
-  def self.decode(input)
-    quantities = input.scan(/(\d+)?(\w|\s)/)
+      def _encode(str, result)
+        return result if str.empty?
 
-    quantities.inject("") do |decoded_string, (count, char)|
-      count = count ? count.to_i : 1
-      decoded_string << char * count
-    end
+        str[/#{str[0]}+/]
+
+        # $& is the match and $` is the string after the match (remainder)
+        result << $&.size.to_s if $&.size > 1
+        result << $&[0]
+
+        _encode $', result
+      end
   end
 end
 
