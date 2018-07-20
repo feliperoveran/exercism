@@ -3,7 +3,7 @@
 class Bob
   def self.hey(remark)
     case remark.strip
-    when /^\s*$/
+    when /^$/
       'Fine. Be that way!'
     when /\A[A-Z\s]+\?\Z/
       "Calm down, I know what I'm doing!"
