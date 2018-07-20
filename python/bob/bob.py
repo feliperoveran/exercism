@@ -5,7 +5,7 @@ def hey(phrase):
 
     if re.match('^\s*$', phrase):
         return 'Fine. Be that way!'
-    if re.match('[A-Z\s]*\?\Z', phrase):
+    elif re.match('[A-Z\s]*\?\Z', phrase):
         return "Calm down, I know what I'm doing!"
     elif re.match('.*\?\Z', phrase):
         return 'Sure.'
